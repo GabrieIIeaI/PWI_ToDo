@@ -1,0 +1,11 @@
+# GERAR apk
+    1 - É preciso escrever o comando "npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res"
+    dentro da pasta root do projeto, após o termino do comando, basta usar "cd android" e depois "gradlew assembleDebug"
+    o apk ficará disponível dentro da pasta -> PWI_ToDo\android\app\build\outputs\apk\debug
+
+# EXECUTANDO O CÓDIGO PARA debug
+    Para complicar o código usando um dispositivo virtual, basta rodar o command "yarn add" ou "npm install", 
+    e após isso o código já estará pronto para utilização.
+
+# TECNLOGIAS USADAS
+    React Native, Hooks e Redux
