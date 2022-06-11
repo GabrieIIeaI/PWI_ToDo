@@ -1,22 +1,29 @@
-import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
-import { useSelector, useDispatch } from "react-redux";
+import React, { useState } from 'react';
+import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { useDispatch } from "react-redux";
 
 import  { deleteTodo } from '../../../actions';
 import Buttons from './buttons';
+import ModalEditTodo from './editModal';
 
 const RenderList = ({ id, todo }) => {
-    
+    const [edit, onEditable] = useState(false);
+
     const dispatch = useDispatch();
     const deleteTodoMethod = (id) => dispatch(deleteTodo(id));
-    
+
     return <>
         <View style={styles.cardView}>
-            <Text style={styles.todoText}>{todo}</Text>
-            <View style={styles.buttonsView}>
-                <Buttons size={40} onPress={() => {console.log("Editar")}} />
-                <Buttons size={40} onPress={() => {deleteTodoMethod(id)}} />
-            </View>
+            <ModalEditTodo edit={edit} todoText={todo} closeModal={onEditable} id={id} />
+            <TouchableOpacity onPress={() => { onEditable(true) }}>
+                <Text style={styles.todoText}>{todo}</Text>
+            </TouchableOpacity>
+            <Buttons
+                name={"check"} 
+                color={"green"}
+                size={30} 
+                onPress={() => {deleteTodoMethod(id)}}
+            />
         </View>
         <View style={styles.divider} />
     </>
@@ -34,20 +41,14 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     divider: {
-        backgroundColor: 'gray',
+        backgroundColor: '#91be3e',
         alignSelf: "center",
         width: "90%",
         height: 1
     },
     todoText: {
         fontSize: 16,
-        color: 'blue'
-    },
-    buttonsView: {
-        height: 20,
-        width: '20%',
-        justifyContent: 'space-between',
-        flexDirection: 'row'
+        color: '#17304d'
     }
 })
 

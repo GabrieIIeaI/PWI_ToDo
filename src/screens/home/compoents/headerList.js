@@ -1,11 +1,15 @@
 import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, Image } from 'react-native';
+
+import logo from '../../../assets/logo.png';
 
 import AddTodoComponent from './addTodo';
 
-const HeaderList = ({ title }) => {
+const HeaderList = () => {
     return <View style={styles.headerView}>
-        <Text style={styles.title}>{title}</Text>
+        <View style={styles.imgView}>
+            <Image source={logo} style={styles.img} />
+        </View>
         <AddTodoComponent />
     </View>
 }
@@ -14,13 +18,21 @@ const styles = StyleSheet.create({
     headerView: {
         width: '100%',
         alignItems: 'center',
-        marginTop: 20
+    },
+    imgView: {
+        width: '100%',
+        alignItems: 'center',
+        backgroundColor: "#337ab7"
     },
     title: {
         fontSize: 20,
         color: 'black',
         fontWeight: 'bold'
     },
+    img: {
+        marginTop: 20,
+        marginBottom: 20
+    }
 });
 
 export default HeaderList;

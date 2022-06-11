@@ -9,7 +9,7 @@ const AddTodoComponent = () => {
 
     const [text, onChangeText] = useState("");
     const dispatch = useDispatch();
-    const addTodo = (value, array) => dispatch(addNewTodo(value, array));
+    const addTodo = (value) => dispatch(addNewTodo(value));
 
     const createTodoData = () => {
         const obj = {
@@ -26,9 +26,13 @@ const AddTodoComponent = () => {
             style={styles.input} 
             onChangeText={onChangeText}
             value={text}
-            placeholder="Sua Tarefa"
+            placeholder="Adicionar uma tarefa"
         />
-        <Buttons onPress={() => addTodo(createTodoData(text))}/> 
+        <Buttons
+            name='chevron-circle-right'
+            size={40}
+            color={'#17304d'}
+            onPress={() => addTodo(createTodoData(text))}/> 
     </View>
 }
 
@@ -47,6 +51,7 @@ const styles = StyleSheet.create({
         padding: 10,
         width: '100%',
         borderRadius: 20,
+        borderColor: '#17304d'
     }
 
 });
