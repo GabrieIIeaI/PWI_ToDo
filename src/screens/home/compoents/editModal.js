@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, TextInput, StyleSheet, View  } from 'react-native';
+import { Modal, TextInput, StyleSheet, View, Text } from 'react-native';
 import { useDispatch } from "react-redux";
 import Buttons from './buttons';
 
 import  { editTodo } from '../../../actions';
-
+import { createTodoData, validations } from '../../../utils';
 
 const ModalEditTodo = ({ edit, todoText, closeModal, id }) => {
     
     const [text, onChangeText] = useState(todoText);
+    const [error, onChangeError] = useState("");
     const [visibleModal, onChangeVisible] = useState(false);
 
     const dispatch = useDispatch();
@@ -19,14 +20,14 @@ const ModalEditTodo = ({ edit, todoText, closeModal, id }) => {
         onChangeText(todoText)
     }, [edit, todoText])
 
-    const createTodoData = () => {
-        const obj = {
-            id: id, 
-            todo: text 
-        };
+    const EditHandler = () => {
+        const isValid = validations(text);
 
-        onChangeText("");
-        return obj;
+        switch(isValid) {
+            case 1: onChangeError("Não é possivel editar para um valor vazio"); break;
+            case 2: onChangeError("O seu ToDo deve ter pelo menos 8 letras"); break;
+            case 0: editTodoMethod(createTodoData(false, text, id)); onChangeError(""); closeModal(false); break;
+        }
     }
 
     return <Modal 
@@ -35,6 +36,7 @@ const ModalEditTodo = ({ edit, todoText, closeModal, id }) => {
         transparent={true}
     >
         <View style={styles.modalBG}>
+            
         <Buttons 
             style={styles.closeButton} 
             name={'close'} 
@@ -43,20 +45,21 @@ const ModalEditTodo = ({ edit, todoText, closeModal, id }) => {
             onPress={() => { closeModal(false) }} 
         />
             <View style={styles.cardModal}>
-                <TextInput 
-                    value={text}
-                    onChangeText={onChangeText}
-                    style={styles.editInput}
-                /> 
-                <Buttons 
-                    name={"check"} 
-                    size={40}
-                    color={'green'} 
-                    onPress={() => { 
-                        editTodoMethod(createTodoData())
-                        closeModal(false);
-                    }}
-                 />
+                <View style={styles.editFilds}>
+                    <TextInput 
+                        value={text}
+                        onChangeText={onChangeText}
+                        style={styles.editInput}
+                    /> 
+                    <Buttons 
+                        name={"check"} 
+                        size={40}
+                        color={'green'} 
+                        onPress={() => EditHandler()}
+                    />
+                 </View>
+                 
+                {error ? <Text style={styles.errorText}>{error}</Text> : <></>}
             </View>
         </View>
     </Modal>
@@ -68,6 +71,13 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, .9)',
         justifyContent: 'center',         
     },
+    editFilds: {
+        flexDirection: 'row',
+        alignSelf: 'center',
+        justifyContent: 'center',
+        width: '100%',
+        height: 50,
+    },
     cardModal: {
         alignItems: 'center',
         alignSelf: 'center',
@@ -75,7 +85,6 @@ const styles = StyleSheet.create({
         height: 150,
         borderRadius: 20,
         backgroundColor: 'white',
-        flexDirection: 'row',
         justifyContent: 'center',
     },
     editInput: {
@@ -96,6 +105,10 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-end',
         marginRight: 40,
         marginBottom: 5
+    },
+    errorText: {
+        color: 'red',
+        fontWeight: 'bold'
     }
 })
 

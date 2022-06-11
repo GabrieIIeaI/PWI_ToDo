@@ -27,7 +27,7 @@ export const editTodo = (value) => async dispatch => {
 }
 
 export const deleteTodo = (id) => async dispatch => {
-    //deletar todob v
+    //deletar todo
     try {
         dispatch({
             type: DELETE_TODO,

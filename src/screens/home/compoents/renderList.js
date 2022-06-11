@@ -15,7 +15,7 @@ const RenderList = ({ id, todo }) => {
     return <>
         <View style={styles.cardView}>
             <ModalEditTodo edit={edit} todoText={todo} closeModal={onEditable} id={id} />
-            <TouchableOpacity onPress={() => { onEditable(true) }}>
+            <TouchableOpacity style={styles.editButton} onPress={() => { onEditable(true) }}>
                 <Text style={styles.todoText}>{todo}</Text>
             </TouchableOpacity>
             <Buttons
@@ -49,6 +49,10 @@ const styles = StyleSheet.create({
     todoText: {
         fontSize: 16,
         color: '#17304d'
+    },
+    editButton: {
+        width: '90%',
+        height: '90%',
     }
 })
 

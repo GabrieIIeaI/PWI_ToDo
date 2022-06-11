@@ -18,7 +18,8 @@ function App() {
 
 const styles = StyleSheet.create({
   masterView: {
-    flex: 1
+    flex: 1,
+    backgroundColor: 'white'
   }
 })
 
